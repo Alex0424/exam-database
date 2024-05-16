@@ -1,5 +1,8 @@
 exam-database
 
+jag följde stegen från readme.md
+här är kommandon jag gjorde:
+
 ```
 $ cd /course_data/labs/exam
 
@@ -34,6 +37,4 @@ CREATE TABLE responses (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     author_id INT REFERENCES users(id)
 );
-
 ```
-  
