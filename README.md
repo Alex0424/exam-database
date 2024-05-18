@@ -4,7 +4,7 @@ jag följde stegen från readme.md
 här är kommandon jag gjorde:
 
 ```
-$ cd /course_data/labs/exam
+cd /course_data/labs/exam
 
 sudo apt install dos2unix -y
 dos2unix jumpbox_shell.sh
