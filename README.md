@@ -26,18 +26,19 @@ vim /course_data/labs/exam/forum_app/configuration.yml
 
 ```
 CREATE TABLE thread_list (
-    id, INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR UNIQUE NOT NULL,
-    author VARCHAR UNIQUE NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) UNIQUE NOT NULL,
+    author VARCHAR(255) NOT NULL,
     updated TIMESTAMP NOT NULL
 );
 
 CREATE TABLE responses (
-    id, INT AUTO_INCREMENT PRIMARY KEY,
-    author VARCHAR NOT NULL,
-    comment VARCHAR NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    author VARCHAR(255) NOT NULL,
+    comment VARCHAR(255) NOT NULL,
     updated TIMESTAMP NOT NULL,
-    thread_list_id INT NOT NULL FOREIGN KEY
+    thread_list_id INT NOT NULL,
+    FOREIGN KEY (thread_list_id) REFERENCES thread_list(id)
 );
     
 ```
