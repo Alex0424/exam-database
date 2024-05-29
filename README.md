@@ -23,3 +23,21 @@ vim /course_data/labs/exam/forum_app/configuration.yml
 - log_level: "INFO"
 + log_level: "DEBUG"
 ```
+
+```
+CREATE TABLE thread_list (
+    id, INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR UNIQUE NOT NULL,
+    author VARCHAR UNIQUE NOT NULL,
+    updated TIMESTAMP NOT NULL
+);
+
+CREATE TABLE responses (
+    id, INT AUTO_INCREMENT PRIMARY KEY,
+    author VARCHAR NOT NULL,
+    comment VARCHAR NOT NULL,
+    updated TIMESTAMP NOT NULL,
+    thread_list_id INT NOT NULL FOREIGN KEY
+);
+    
+```
