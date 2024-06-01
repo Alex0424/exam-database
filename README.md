@@ -55,6 +55,8 @@ CREATE TABLE deleted_items (
 );    
 ```
 
+## python.py code:
+
 ```
 # SPDX-FileCopyrightText: © 2024 Menacit AB <foss@menacit.se>
 # SPDX-License-Identifier: CC-BY-SA-4.0
@@ -257,7 +259,7 @@ def create_thread():
                 RETURNING id;
             """, (title, topic_description, app_user, author_ip))
 
-            new_thread_id = cursor.fetchone()[0]  # Get ID from result
+            new_thread_id = cursor.fetchone()[0]
             postgresql_client.commit()
 
         response = new_thread_id
@@ -300,11 +302,11 @@ def get_thread(thread_id):
             """, (thread_id,))
             responses_data = cursor.fetchall()
 
-            # Format the response
+            
             responses = [{
                 "comment": r[0],
                 "author": r[1],
-                "responded": r[2].strftime("%Y-%m-%d %H:%M:%S")  # Format timestamp here
+                "responded": r[2].strftime("%Y-%m-%d %H:%M:%S")
             } for r in responses_data]
 
             formatted_created = thread_data[2].strftime("%Y-%m-%d %H:%M:%S")
@@ -373,21 +375,21 @@ def answer_thread(thread_id):
 @authentication.login_required
 def delete_thread(thread_id):
     app_user = authentication.current_user()
-    author_ip = request.remote_addr  # Get the deleter's IP
+    author_ip = request.remote_addr
     _log.info(f'Deleting thread ID {thread_id} for user "{app_user}"')
 
     try:
         with postgresql_client.cursor() as cursor:
-            # 1. Verify Authorship 
+            
             cursor.execute("SELECT author, author_ip FROM threads WHERE id = %s", (thread_id,))
             thread_data = cursor.fetchone()
             if thread_data is None:
                 raise Exception(f"Thread with ID {thread_id} not found")
             thread_author, stored_author_ip = thread_data
-            if thread_author != app_user or str(stored_author_ip) != author_ip:  # Ensure author and IP match
+            if thread_author != app_user or str(stored_author_ip) != author_ip:
                 raise Exception("Unauthorized: You cannot delete another user's thread or a thread created from another IP")
 
-            # 2. Store Deleted Thread
+            
             cursor.execute("""
                 INSERT INTO deleted_items (item_type, original_id, thread_id, title, content, author, author_ip, deleted_at)
                 SELECT 'thread', id, id, title, topic_description, author, author_ip, NOW() 
@@ -395,7 +397,7 @@ def delete_thread(thread_id):
                 WHERE id = %s
             """, (thread_id,))
             
-            # 3. Store Deleted Responses
+            
             cursor.execute("""
                 INSERT INTO deleted_items (item_type, original_id, thread_id, content, author, author_ip, deleted_at)
                 SELECT 'response', id, %s, comment, author, author_ip, NOW() -- Include thread_id
@@ -403,15 +405,15 @@ def delete_thread(thread_id):
                 WHERE thread_id = %s
             """, (thread_id, thread_id))
 
-            # 4. Delete the Thread and Its Responses
+            
             cursor.execute("DELETE FROM threads WHERE id = %s;", (thread_id,))
 
-            postgresql_client.commit()  # Commit changes to the database
+            postgresql_client.commit()
     except Exception as error_message:
         postgresql_client.rollback()
         raise Exception(f'Failed to delete thread ID {thread_id} for user "{app_user}": "{error_message}"')
 
-    return jsonify('OK')  # Send a success response
+    return jsonify('OK')
 
 
 # -------------------------------------------------------------------------------------------------
@@ -461,5 +463,4 @@ def get_thread_html(thread_id):
 def get_thread_list_html():
     _log.info(f'Return thread list HTML page for user "{authentication.current_user()}"')
     return app.send_static_file('thread_list.html')
-
 ```
