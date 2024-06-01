@@ -23,7 +23,7 @@ vim /course_data/labs/exam/forum_app/configuration.yml
 - log_level: "INFO"
 + log_level: "DEBUG"
 ```
-
+## PostgreSQL Tables:
 ```
 CREATE TABLE threads (
     id SERIAL PRIMARY KEY,
