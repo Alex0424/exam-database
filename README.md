@@ -1,5 +1,5 @@
 exam-database
-alexander och tan
+Alexander Lindholm och Traitep Nammala
 
 jag följde stegen från readme.md
 här är kommandon jag gjorde:
@@ -57,7 +57,7 @@ CREATE TABLE deleted_items (
 );    
 ```
 
-## python.py code:
+## server.py code:
 
 ```
 # SPDX-FileCopyrightText: © 2024 Menacit AB <foss@menacit.se>
