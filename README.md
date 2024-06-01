@@ -41,6 +41,7 @@ CREATE TABLE responses (
     author TEXT NOT NULL,
     author_ip INET,
     responded TIMESTAMP NOT NULL DEFAULT NOW()
+);
 
 CREATE TABLE deleted_items (
     id SERIAL PRIMARY KEY,
