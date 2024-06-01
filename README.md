@@ -1,8 +1,9 @@
-exam-database
-Alexander Lindholm och Traitep Nammala
+# Exam-database
+## Alexander Lindholm och Traitep Nammala
 
-jag följde stegen från readme.md
-här är kommandon jag gjorde:
+### Jag följde stegen från readme.md
+
+### Här är kommandon jag gjorde:
 
 ```
 cd /course_data/labs/exam
